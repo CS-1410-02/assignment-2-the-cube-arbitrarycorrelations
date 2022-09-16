@@ -9,8 +9,8 @@ public class Cube {
     for(int i = 0; i < 6; i++){
       cube.put(i, new Face(colors_list[i]));
     }
+    cube.get(1).getFace();
     
-    printCube(cube);
   }
 
   public static void printCube(Map<Integer, Face> cube){
@@ -47,7 +47,7 @@ class Face {
     for(int row = 0; row < 3; row++){
       if(row > 0){blank += '\n';}
       for(int column = 0; column < 3; column++){
-        blank += Character.toString(this.facecolor);
+        blank += target_data[row][column];
         if(column == 0 || column == 1){blank += '|';}
       }
     }
