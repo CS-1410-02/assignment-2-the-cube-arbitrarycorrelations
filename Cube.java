@@ -17,8 +17,7 @@ public class Cube {
       cube_object.put(i, new Face(colorOrder.get(i-1)));
     }
     //for (Map.Entry<Character, Face> entry: Cube.cube_object.entrySet()){entry.getValue().printFace();}
-    System.out.println(colors_list);
-    cube_object.get(1).transform("u");
+    cube_object.get(1).transform("u'");
     printCube(cube_object);
   }
 
@@ -68,7 +67,7 @@ class Face {
     String[] validMoves = {"u", "d", "r", "l", "f", "b"}; 
     boolean move_is_valid = false;
     for(String testMove: validMoves){
-      if(move == testMove || move == (testMove + "'")){
+      if(move == testMove || move.equals(testMove + "'")){
         move_is_valid = true;
         break;
       }else{move_is_valid = false;}
@@ -84,7 +83,10 @@ class Face {
               Cube.cube_object.get(i).modifyRow(0, Cube.colors_list.get(i-1));;
             } 
           }else{
-
+            for (int i = 1; i < 5; i++){ //starts at 4 as yellow and white are not modified in this operation
+              if (i == 4){Cube.cube_object.get(i).modifyRow(0, Cube.colors_list.get(1));}
+              else{Cube.cube_object.get(i).modifyRow(0, Cube.colors_list.get(i+1));}
+            } 
           }
           
         } //(top row) u: left, u': right
