@@ -1,13 +1,14 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 public class Cube {
 
   //static keyword indicates the variable is defined throughout the namespace of the class Cube
   static Map<Integer, Face> cube_object = new HashMap<Integer, Face>(); 
   static Map<Integer, Face> cubeState = new HashMap<Integer, Face>(); 
-  static Face pivotFace = cube_object.get(1);
+  // static Face pivotFace = cube_object.get(1);
   static Map<Integer, Character> colors_list = new HashMap<>();
   static ArrayList<Character> colorOrder = new ArrayList<Character>(List.of('r','b','o','g','y','w')); //Starts at 1
 
@@ -24,6 +25,7 @@ public class Cube {
     cube_object.get(1).transform("u");
     printCube(cube_object);
     System.out.println("--------------");
+
     cube_object.get(1).transform("u");
     printCube(cube_object);
 
@@ -70,7 +72,11 @@ class Face {
   }
 
   public void setMatrix(String[][] matrix){
-    this.face_matrix = matrix;
+    for(int x = 0; x < 3; x++){ //Columns
+      for (int y = 0; y < 3; y++){ //Rows
+        this.face_matrix[x][y] = matrix[x][y];
+      }
+    }
   }
 
   public void printFace(){
@@ -88,31 +94,32 @@ class Face {
     
   }
 
-  public Map<Integer, Character> createColorList(ArrayList<Character> order){
-    Map<Integer, Character> specificOrder = new HashMap<Integer, Character>();
-    for (char color : order){
-      specificOrder.put(order.indexOf(color) + 1, color);
-    }
-    return specificOrder;
-  }
+  // public Map<Integer, Character> createColorList(ArrayList<Character> order){
+  //   Map<Integer, Character> specificOrder = new HashMap<Integer, Character>();
+  //   for (char color : order){
+  //     specificOrder.put(order.indexOf(color) + 1, color);
+  //   }
+  //   return specificOrder;
+  // }
 
   public String cellColor(Face face, int column, int row){ //called on a face
+    
     String color_to_return = face.face_matrix[row][column];
     return color_to_return;
   }
 
   public void transform(String move){
 
-    String[] validMoves = {"u", "d", "r", "l", "f", "b"}; 
-    boolean move_is_valid = false;
+    String[] validMoves = {"u", "d", "r", "l", "f", "b","u'", "d'", "r'", "l'", "f'", "b'"}; 
+    boolean move_is_valid = Arrays.asList(validMoves).contains(move);
 
-    for(String testMove: validMoves){
-      if(move == testMove || move.equals(testMove + "'")){
-        move_is_valid = true;
-        break;
+    // for(String testMove: validMoves){
+      // if(move == testMove || move.equals(testMove + "'")){
+        // move_is_valid = true;
+        // break;
 
-      }else{move_is_valid = false;}
-    }
+      // }else{move_is_valid = false;}
+    // }
 
     if (!move_is_valid){
       System.out.println("That isn't a valid move.");
@@ -130,7 +137,7 @@ class Face {
                 for (int column = 0; column < 3; column++){
                   Face faceToSee = Cube.cubeState.get(keyToUse);
                   System.out.println("COLUMN: "+column);
-                  String storedColor = cellColor(faceToSee, 0, column);
+                  String storedColor = cellColor(faceToSee, column, 0);
                   System.out.println("CTU:"+ storedColor+"\n"+faceKey+":"+keyToUse+"\n");
                   entry.getValue().modifyCell(column, 0, storedColor);
                 }
